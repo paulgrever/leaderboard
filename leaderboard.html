@@ -4,14 +4,8 @@
 <body>
   <div class="center-align light-blue-text">
     <h1>Leaderboard</h1>
+    <p>Number of players: {{> playerCount}}</p>
     {{> leaderboard}}
   </div>  
 </body>
 
-<template name="leaderboard">
-  {{#each player}}
-    <div class="row">
-      {{name}} : {{score}}
-    </div>
-  {{/each}}
-</template>

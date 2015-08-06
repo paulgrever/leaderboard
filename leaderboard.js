@@ -10,6 +10,11 @@ if(Meteor.isClient){
         return "Some other function"
     }
   });
+  Template.playerCount.helpers({
+    'playersCount' : function(){
+      return PlayersList.find().count();
+    }
+  })
 }
 
 if(Meteor.isServer){
