@@ -1,11 +1,17 @@
 PlayersList = new Mongo.Collection('players');
 
-console.log("paul g!!");
 
 if(Meteor.isClient){
-  console.log("Hello client");
+  Template.leaderboard.helpers({
+   'player' : function(){
+      return PlayersList.find();
+    },
+    'otherHelperFunction': function(){
+        return "Some other function"
+    }
+  });
 }
 
 if(Meteor.isServer){
-  console.log("Hello server");
+  
 }
