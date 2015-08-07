@@ -6,8 +6,12 @@ if(Meteor.isClient){
    'player' : function(){
       return PlayersList.find();
     },
-    'otherHelperFunction': function(){
-        return "Some other function"
+    'selectedClass': function(){
+      var playerId = this._id;
+      var selectedPlayer = Session.get('selectedPlayer');
+      if(playerId == selectedPlayer){
+        return "selected"
+      }
     }
   });
   Template.playerCount.helpers({
@@ -18,11 +22,10 @@ if(Meteor.isClient){
 
   Template.leaderboard.events({
     // events go here
-    "click .player" : function() {
-      console.log("You clicked a player element");
-    },
-    "mouseover .player" : function(){
-     console.log("Paul"); 
+    'click .player': function(){
+        var playerId = this._id;;
+        Session.set('selectedPlayer', playerId);
+        var selectedPlayer = Session.get('selectedPlayer');
     }
   });
 }

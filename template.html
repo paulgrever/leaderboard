@@ -1,6 +1,6 @@
 <template name="leaderboard">
   {{#each player}}
-    <div class="row player">
+    <div class="row player {{selectedClass}}">
       {{name}} : {{score}}
     </div>
   {{/each}}
