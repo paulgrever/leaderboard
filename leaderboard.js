@@ -20,6 +20,9 @@ if(Meteor.isClient){
     // events go here
     "click .player" : function() {
       console.log("You clicked a player element");
+    },
+    "mouseover .player" : function(){
+     console.log("Paul"); 
     }
   });
 }
