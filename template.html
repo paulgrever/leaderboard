@@ -17,10 +17,12 @@
 </template>
 
 <template name="addPlayerForm">
+  {{#if currentUser}}
     <form>
         <input type="text" name="playerName" placeholder="Player Name">
         <input type="text" name="playerScore" placeholder="Player Score">
         <input type="submit" value="Add Player">
         <input type="button" class="remove" value="Remove Player">
     </form>
+  {{/if}}
 </template>

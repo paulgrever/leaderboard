@@ -4,7 +4,8 @@ PlayersList = new Mongo.Collection('players');
 if(Meteor.isClient){
   Template.leaderboard.helpers({
    'player' : function(){
-      return PlayersList.find({},{sort: {score: -1, name: 1}  });
+      var currentUserId = Meteor.userId();
+      return PlayersList.find({createdBy: currentUserId},{sort: {score: -1, name: 1}  });
     },
     'selectedClass': function(){
       var playerId = this._id;
@@ -47,9 +48,11 @@ if(Meteor.isClient){
       event.preventDefault();
       var playerNameVar = event.target.playerName.value;
       var playerScoreVar = parseInt(event.target.playerScore.value);
+      var currentUserId = Meteor.userId();
       PlayersList.insert({
         name: playerNameVar,
-        score: (playerScoreVar || 0)
+        score: (playerScoreVar || 0),
+        createdBy : currentUserId
       });
       event.target.playerName.value = "";
       event.target.playerScore.value = "";
