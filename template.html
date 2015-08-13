@@ -4,9 +4,21 @@
       {{name}} : {{score}}
     </div>
   {{/each}}
+  {{#if showSelectedPlayer}}
+    <li>Selected Player: {{showSelectedPlayer.name}}</li>
+  
   <input type="button" class="increment" value="Give 5 Points">
+  <input type="button" class="decrement" value="Take 5 Points">
+  {{/if}}
 </template>
 
 <template name="playerCount">
   {{playersCount}}
+</template>
+
+<template name="addPlayerForm">
+    <form>
+        <input type="text" name="playerName">
+        <input type="submit" value="Add Player">
+    </form>
 </template>
