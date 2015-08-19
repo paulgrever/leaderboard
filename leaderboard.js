@@ -37,11 +37,11 @@ if(Meteor.isClient){
     },
     'click .increment': function(){
       var selectedPlayer = Session.get('selectedPlayer');
-      PlayersList.update(selectedPlayer, {$inc: {score: 5}});
+      Meteor.call('modifyPlayerScore', selectedPlayer, 5);
     },
     'click .decrement': function(){
       var selectedPlayer = Session.get('selectedPlayer');
-      PlayersList.update(selectedPlayer, {$inc: {score: -5}});
+      Meteor.call('modifyPlayerScore', selectedPlayer, -5);
     }
   });
 
@@ -50,20 +50,14 @@ if(Meteor.isClient){
       event.preventDefault();
       var playerNameVar = event.target.playerName.value;
       var playerScoreVar = parseInt(event.target.playerScore.value);
-      var currentUserId = Meteor.userId();
-      PlayersList.insert({
-        name: playerNameVar,
-        score: (playerScoreVar || 0),
-        createdBy : currentUserId
-      });
+      Meteor.call('insertPlayerData', playerNameVar, playerScoreVar);
       event.target.playerName.value = "";
       event.target.playerScore.value = "";
     },
 
     'click .remove' : function(){
       var selectedPlayer = Session.get('selectedPlayer');
-      alert("Do you really want to remove this player?")
-      PlayersList.remove(selectedPlayer);
+      Meteor.call('removePlayerData', selectedPlayer);
     }
 
   });
@@ -73,6 +67,26 @@ if(Meteor.isServer){
   Meteor.publish('thePlayers', function(){
       var currentUserId = this.userId;
       return PlayersList.find({createdBy: currentUserId})
+  });
+
+  Meteor.methods({
+    'insertPlayerData': function(playerNameVar, playerScoreVar){
+        var currentUserId = Meteor.userId();
+        PlayersList.insert({
+            name: playerNameVar,
+            score: playerScoreVar,
+            createdBy: currentUserId
+        });
+      },
+    'removePlayerData' : function(selectedPlayer){
+        var currentUserId = Meteor.userId();
+        PlayersList.remove({_id: selectedPlayer, createdBy: currentUserId});
+      },
+    'modifyPlayerScore': function(selectedPlayer, scoreValue){
+      var currentUserId = Meteor.userId();
+      PlayersList.update( {_id: selectedPlayer, createdBy: currentUserId},
+                        {$inc: {score: scoreValue} });
+    }
   });
 }
 
